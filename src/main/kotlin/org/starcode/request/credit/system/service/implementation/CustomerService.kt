@@ -13,7 +13,7 @@ class CustomerService(
         return this.customerRepository.save(customer)
     }
 
-    override fun findCustomer(id: Long): Customer? {
+    override fun findCustomer(id: Long): Customer {
         return this.customerRepository.findById(id).orElseThrow{throw RuntimeException("Customer ID: $id not found")}
     }
 
