@@ -1,5 +1,6 @@
 package org.starcode.request.credit.system.controller
 
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
@@ -23,7 +24,7 @@ class CustomerController(
     }
 
     @PostMapping
-    fun saveCustomer(@RequestBody customerDto: CustomerDto): ResponseEntity<String> {
+    fun saveCustomer(@RequestBody @Valid customerDto: CustomerDto): ResponseEntity<String> {
         val savedUser = customerService.saveCustomer(customerDto.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED).body("Customer: ${savedUser.email} saved!")
     }
@@ -31,7 +32,7 @@ class CustomerController(
     @PatchMapping
     fun updateCustomer(
         @RequestParam(value = "customerId") id: Long,
-        @RequestBody customerUpdateDto: CustomerUpdateDto
+        @RequestBody @Valid customerUpdateDto: CustomerUpdateDto
     ): ResponseEntity<CustomerView> {
         val customer: Customer = this.customerService.findCustomer(id)
         val customerToUpdate: Customer = customerUpdateDto.toEntity(customer)
@@ -42,6 +43,6 @@ class CustomerController(
     @DeleteMapping("{id}")
     fun deleteCustomer(@PathVariable id: Long): ResponseEntity<String> {
         this.customerService.deleteCustomer(id)
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Customer deleted!")
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Customer deleted!")
     }
 }
