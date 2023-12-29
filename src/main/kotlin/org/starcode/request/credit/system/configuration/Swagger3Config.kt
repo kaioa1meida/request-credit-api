@@ -11,6 +11,7 @@ class Swagger3Config {
     fun publicApi(): GroupedOpenApi? {
         return GroupedOpenApi.builder()
             .group("requestcreditsystem-public")
+            .displayName("Request Credit System")
             .pathsToMatch("/api/customer/**", "/api/credit/**")
             .build()
     }
